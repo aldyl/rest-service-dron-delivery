@@ -1,0 +1,28 @@
+
+0- Preload BD with 10 drones
+
+Functions
+
+1- Create a new drone.
+2- Load a dron with medication carry
+3- Some item have diferent weight, maybe overload drone for 500gr,
+     function to evaluate the loaded medication for a give drone
+4- Check availability of drones for loading.
+5- Check battery level for given drone.
+
+
+RF
+1- Only use postman to interact.
+2- if a dron is loaded with more weight that it can carry prevent being LOADED
+3- if battery level is below 25% can't be LOADING state
+4- periodic check drones battery levels and create history/audit event log
+
+RNF
+1- Input data be in JSON format
+2- buildable, runable
+3- explain in README format, build, run, test intructions
+5- use a locally BD
+6- Required Data be preloaded
+7- unittest are necessary if i have time
+
+

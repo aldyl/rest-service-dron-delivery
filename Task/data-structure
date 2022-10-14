@@ -1,0 +1,15 @@
+{
+"max_drones" : 10, "dron" : { 
+"serial" : "#", "comment0" : "100 characters max",
+"model" : "Ligthweigth", "comment1" : "Ligthweight, Middleweight, Cruiserweight, Heavyweight",
+"weight" : 450, "comment2" : "Max 500 gr",
+"batery_capacity" : "90", "comment3" : "percentage",
+"state" : "IDLE", "comment4" : "IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING",
+"carry" : {
+    "name" : "Sust-01_q", "comment5" : "allowed only letters, numbers,‘-‘, ‘_’" ,
+    "weight" : "300",
+    "code" : "sasas212_121", "comment6" : "allowed only  upper case letters, underscore and numbers",
+    "image" : "./image0.jpg", "comment7" : "medication case"
+}
+}
+}
