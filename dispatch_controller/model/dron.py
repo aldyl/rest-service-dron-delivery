@@ -3,10 +3,10 @@ from marshmallow import Schema, fields, post_load
 
 class Dron(object):
 
-    def __init__(self, id, battery_capacity, carry, model, serial, state, weight):
+    def __init__(self, id:int, battery_load:int, drone_cargo:list, model:str, serial:str, state:str, weight:int):
         self.id = id
-        self.battery_capacity = battery_capacity
-        self.carry = carry
+        self.battery_load = battery_load
+        self.drone_cargo = drone_cargo
         self.model = model
         self.serial = serial
         self.state = state
@@ -22,8 +22,8 @@ class DronSchema(Schema):
 
 
     id = fields.Integer()
-    battery_capacity = fields.Integer()
-    carry = fields.List(fields.String())
+    battery_load = fields.Integer()
+    drone_cargo = fields.List(fields.String())
     model = fields.String()
     serial = fields.String()
     state = fields.String()
