@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+dispatch_controller/DB/dispatch.db
