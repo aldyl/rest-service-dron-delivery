@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 class StateType(Enum):
     
@@ -8,3 +9,5 @@ class StateType(Enum):
     DELIVERING = "DELIVERING"
     DELIVERED = "DELIVERED"
     RETURNING = "RETURNING"
+
+    RANDOM = random.choice([IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING])
