@@ -33,6 +33,36 @@ def add_medication():
     else:
         return {"error": "Request must be JSON"}, 415
 
+@app.route("/medications", methods=["PUT"])
+def update_dron():
+
+    if request.is_json:
+
+        result = request.get_json()
+
+        medid = result["medid"] 
+
+        exist_med = ( Medication.query.filter(Medication.medid == medid).one_or_none() )
+
+        if exist_med is not None:
+
+            schema = MedicationSchema()
+
+            update = schema.load(result)
+
+            db.session.merge(update)
+        
+            db.session.commit()
+
+            data = schema.dump(update)
+
+            return data, 200
+
+        else:
+            return { "error": "Medication id not exist in database"}, 409
+
+    else:
+        return {"error": "Request must be JSON"}, 415
 
 @app.route("/medications", methods=["GET"])
 def get_all_medication():
@@ -65,7 +95,7 @@ def get_medication_code(medication_id):
         med_schema = MedicationSchema()    
     
         _med = med_schema.dump(med)
-        return jsonify(_med)
+        return jsonify(_med), 200
 
     # Otherwise, nope, didn't find that person
     else:
