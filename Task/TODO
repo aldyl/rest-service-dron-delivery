@@ -1,14 +1,14 @@
 
-0- Preload BD with 10 drones
+0- Preload BD with 10 drones OK
 
 Functions
 
-1- Create a new drone.
-2- Load a dron with medication carry
+1- Create a new drone. OK
+2- Load a dron with medication carry 
 3- Some item have diferent weight, maybe overload drone for 500gr,
      function to evaluate the loaded medication for a give drone
-4- Check availability of drones for loading.
-5- Check battery level for given drone.
+4- Check availability of drones for loading. OK
+5- Check battery level for given drone. Ok
 
 
 RF
@@ -21,8 +21,8 @@ RNF
 1- Input data be in JSON format
 2- buildable, runable
 3- explain in README format, build, run, test intructions
-5- use a locally BD
-6- Required Data be preloaded
+5- use a locally BD OK
+6- Required Data be preloaded OK
 7- unittest are necessary if i have time
 
 

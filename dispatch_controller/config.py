@@ -1,6 +1,6 @@
 #!/bin/pyton3
 from flask import Flask
-from dispatch_controller.DB.alchemy_marshmallow import DbConnection
+from dispatch_controller.model.connection import DbConnection
 
 app = Flask(__name__)
 

@@ -13,12 +13,11 @@ test = [
     {
         "type": "POST",
         "endpoint": "/drones",
-        "data": {"serial": "".join(secrets.choice(string.ascii_letters + string.digits) for x in range(6)),
+        "data": {"serial": "".join(secrets.choice(string.ascii_letters + string.digits) for x in range(100)),
                  "model": ModelType.RANDOM.value,
                  "weight": int(random.random()*1000/2),
-                 "battery_capacity": int(random.random()*100),
-                 "state": StateType.RANDOM.value,
-                 "carry": []},
+                 "batteryload": int(random.random()*100),
+                 "state": StateType.RANDOM.value, }
 
     },
 
@@ -27,16 +26,18 @@ test = [
         "endpoint": "/drones",
     },
 
-    
+
     {
 
         "type": "POST",
         "endpoint": "/medications",
-        "data": {"id":"10",
-                 "code": "".join(secrets.choice(string.ascii_letters + string.digits) for x in range(6)),
+        "data": {
+                 "code": "".join(secrets.choice(string.ascii_uppercase + string.digits+"_") for x in range(10)),
                  "image": "http://www.cu",
-                 "name": "".join(secrets.choice(string.ascii_letters + string.digits) for x in range(6)),
-                 "weight": int(random.random()*1000/2)},
+                 "name": "".join(secrets.choice(string.ascii_letters + string.digits+"_-") for x in range(10)),
+                 "weight": int(random.random()*1000/2),
+                 "dronid": int(random.random()*10),
+                 },
 
     },
 
@@ -44,7 +45,6 @@ test = [
         "type": "GET",
         "endpoint": "/medications",
     },
-
 
 ]
 
@@ -59,5 +59,3 @@ for r in test:
 
     else:
         continue
-
-    

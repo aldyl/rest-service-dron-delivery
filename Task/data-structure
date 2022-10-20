@@ -3,7 +3,7 @@
 "serial" : "#", "comment0" : "100 characters max",
 "model" : "Ligthweigth", "comment1" : "Ligthweight, Middleweight, Cruiserweight, Heavyweight",
 "weight" : 450, "comment2" : "Max 500 gr",
-"batery_capacity" : "90", "comment3" : "percentage",
+"batteryload" : "90", "comment3" : "percentage",
 "state" : "IDLE", "comment4" : "IDLE, LOADING, LOADED, DELIVERING, DELIVERED, RETURNING",
 "carry" : {
     "name" : "Sust-01_q", "comment5" : "allowed only letters, numbers,‘-‘, ‘_’" ,
