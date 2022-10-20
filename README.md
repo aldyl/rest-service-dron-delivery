@@ -2,7 +2,7 @@
 Install
 
 pip3 install pipenv
-pipenv  install --skip-lock  flask Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy marshmallow apscheduler
+pipenv  install --skip-lock  flask Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy marshmallow flask-apscheduler
 
 Load init database
 
