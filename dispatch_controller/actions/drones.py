@@ -3,7 +3,6 @@ This is the drones module and supports all the REST actions for the
 drones data
 """
 
-import re
 from flask import jsonify, request
 from dispatch_controller.actions.medications import get_medication_code
 from dispatch_controller.config import app, db
@@ -110,15 +109,12 @@ def add_dron_cargo(dron_id):
         if code_dron == 200:
 
             result_dron["state"] = "LOADING"
+            
+            dron_weight = result_dron["weight"]
                     
-            schema = DronSchema()
-
-            update = schema.load(result_dron)
-
-            db.session.merge(update)
-
             loaded = []
             errors = []
+
 
             for medid in result["medid"]:
 
@@ -126,21 +122,39 @@ def add_dron_cargo(dron_id):
 
                 if code == 200 and result_med["dronid"] == -1:
 
-                    result_med["dronid"] = dron_id
+                    new_weight = dron_weight + result_med["weight"]
                     
-                    schema = MedicationSchema()
+                    if not new_weight > 500:
+                        
+                        result_med["dronid"] = dron_id
+                    
+                        schema = MedicationSchema()
 
-                    update = schema.load(result_med)
+                        update = schema.load(result_med)
 
-                    db.session.merge(update)
+                        db.session.merge(update)
 
-                    loaded.append(medid)
+                        loaded.append(medid)
+
+                        dron_weight = new_weight
+                    
+                    else:
+
+                        errors.append(medid)
 
                 else:
 
                     errors.append(medid)
 
             
+            result_dron["weight"] = dron_weight
+
+            schema = DronSchema()
+
+            update = schema.load(result_dron)
+
+            db.session.merge(update)
+
             db.session.commit()
 
             return jsonify(loaded, errors), 200

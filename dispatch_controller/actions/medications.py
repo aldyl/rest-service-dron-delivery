@@ -34,7 +34,7 @@ def add_medication():
         return {"error": "Request must be JSON"}, 415
 
 @app.route("/medications", methods=["PUT"])
-def update_dron():
+def update_medication():
 
     if request.is_json:
 
