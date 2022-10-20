@@ -5,11 +5,14 @@ drones data
 
 import re
 from flask import jsonify, request
+from dispatch_controller.actions.medications import get_medication_code
 from dispatch_controller.config import app, db
 
 from dispatch_controller.model.dron import Dron , DronSchema 
 
 from dispatch_controller.model.medication import Medication,  MedicationSchema
+
+
 
 from sqlalchemy import func
 
@@ -53,8 +56,101 @@ def add_dron():
         return {"error": "Request must be JSON"}, 415
 
 
+@app.route("/drones", methods=["PUT"])
+def update_dron():
+
+    if request.is_json:
+
+        result = request.get_json()
+
+        dron_id = result["dronid"]
+
+        exist_dron = ( Dron.query.filter(Dron.dronid == dron_id).one_or_none() )
+
+        if exist_dron is not None:
+
+            schema = DronSchema()
+
+            update = schema.load(result)
+
+            db.session.merge(update)
+        
+            db.session.commit()
+
+            data = schema.dump(update)
+
+            return data, 200
+
+        else:
+            return { "error": "Dron id not exist in database"}, 409
+
+    else:
+        return {"error": "Request must be JSON"}, 415
 
 
+@app.route("/drones/<dron_id>/cargo", methods=["POST"])
+def add_dron_cargo(dron_id):
+
+    """
+    This function add cargo for /api/drones/<dron_id>/cargo
+    Examples:
+    {
+        "medid": [0,9,8],
+    }
+    
+    :return:        json representation string
+    """
+
+    if request.is_json:
+
+        result = request.get_json()
+
+        result_dron, code_dron = get_dron_ready_for_load_id(dron_id)
+
+        if code_dron == 200:
+
+            result_dron["state"] = "LOADING"
+                    
+            schema = DronSchema()
+
+            update = schema.load(result_dron)
+
+            db.session.merge(update)
+
+            loaded = []
+            errors = []
+
+            for medid in result["medid"]:
+
+                result_med, code = get_medication_code(medid)
+
+                if code == 200 and result_med["dronid"] == -1:
+
+                    result_med["dronid"] = dron_id
+                    
+                    schema = MedicationSchema()
+
+                    update = schema.load(result_med)
+
+                    db.session.merge(update)
+
+                    loaded.append(medid)
+
+                else:
+
+                    errors.append(medid)
+
+            
+            db.session.commit()
+
+            return jsonify(loaded, errors), 200
+
+        else:
+
+            return { "error" : "Dron is not available for loading" }, 404               
+
+    else:
+        return {"error": "Request must be JSON"}, 415
 
 
 @app.route("/drones", methods=["GET"])
@@ -139,7 +235,7 @@ def get_dron_battery(dron_id):
 
     # Otherwise, nope, didn't find that id
     else:
-        return  { "error" : "not found for Id: {dron_id}".format(dron_id=dron_id)} , 404
+        return  { "error" : "Dron not found for Id: {dron_id}".format(dron_id=dron_id)} , 404
 
 @app.route("/drones/readyforload", methods=["GET"])
 def get_dron_ready_for_load():
@@ -162,4 +258,26 @@ def get_dron_ready_for_load():
     # Otherwise, nope, didn't find that id
     else:
         return  { "error" : "Not available"} , 404
+
+@app.route("/drones/<dron_id>/readyforload", methods=["GET"])
+def get_dron_ready_for_load_id(dron_id):
+    """
+    This function responds to a request for /drones/<dron_id>/readyforload
+    :return:        json string
+    """
+
+    dron = Dron.query.filter(Dron.batteryload > 25).filter(Dron.state == "IDLE").filter(Dron.dronid == dron_id).one_or_none()
+
+    if dron is not None:
+
+        # Serialize the data for the response
+        dron_schema = DronSchema()    
+        _dron = dron_schema.dump(dron)
+        
+        return jsonify(_dron), 200
+
+    # Otherwise, nope, didn't find that id
+    else:
+        return  { "error" : "Not available"} , 404
+
 
