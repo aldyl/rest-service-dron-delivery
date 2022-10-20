@@ -179,7 +179,7 @@ def get_all_drones():
        
     schema = DronSchema(many=True)
     _drones = schema.dump(drones)
-    return jsonify(_drones)
+    return jsonify(_drones), 200
 
 
 @app.route("/drones/<dron_id>", methods=["GET"])
@@ -244,12 +244,17 @@ def get_dron_battery(dron_id):
         _dron = dron_schema.dump(dron)
         
         batteryload = _dron.get("batteryload" )
+        
+        status = "dicharged"
+        if batteryload > 25:
+            status = "charged"
 
-        return { "dronid" : dron_id, "batteryload" : batteryload}, 200
+        return { "dronid" : dron_id, "batteryload" : batteryload, "batterystatus" : status}, 200
 
     # Otherwise, nope, didn't find that id
     else:
         return  { "error" : "Dron not found for Id: {dron_id}".format(dron_id=dron_id)} , 404
+
 
 @app.route("/drones/readyforload", methods=["GET"])
 def get_dron_ready_for_load():
