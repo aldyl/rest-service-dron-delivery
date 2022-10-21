@@ -22,6 +22,17 @@ test = [
     },
 
     {
+        "type": "PUT",
+        "endpoint": "/drones",
+        "data": {"serial": "".join(secrets.choice(string.ascii_letters + string.digits) for x in range(100)),
+                 "model": ModelType.RANDOM.value,
+                 "weight": int(random.random()*1000/2),
+                 "batteryload": int(random.random()*100),
+                 "state": StateType.RANDOM.value, }
+
+    },
+
+    {
         "type": "GET",
         "endpoint": "/drones",
     },
