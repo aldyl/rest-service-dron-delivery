@@ -19,8 +19,8 @@
 `./bootstrap.sh app`
 
 # Methods and Endpoints
-                                    POST  GET  PUT
-/drones                              X     X    X
-/drones/<dron_id>                          X
-/medications                         X     X    X 
-/medications/<medication_id>               X
+`                                    POST  GET  PUT`
+`/drones                              X     X    X`
+`/drones/<dron_id>                          X`
+`/medications                         X     X    X`
+`/medications/<medication_id>               X`
