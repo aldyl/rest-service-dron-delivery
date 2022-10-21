@@ -168,9 +168,11 @@ def add_dron_cargo(dron_id):
 
         if code_dron == 200:
 
-            result_dron["state"] = "LOADING"
+            dron_schema = DronSchema()
+            dron = dron_schema.load(result_dron.json)
+            dron.state = "LOADING"
 
-            dron_weight = result_dron["weight"]
+            dron_weight = dron.weight
 
             loaded = []
             errors = []
@@ -179,43 +181,39 @@ def add_dron_cargo(dron_id):
 
                 result_med, code = get_medication_code(medid)
 
-                if code == 200 and result_med["dronid"] == -1:
+                med_schema = MedicationSchema()
 
-                    new_weight = dron_weight + result_med["weight"]
+                med = med_schema.load(result_med.json)
+
+                if code == 200 and med.dronid == -1:
+
+                    new_weight = dron_weight + med.weight
 
                     if not new_weight > 500:
 
-                        result_med["dronid"] = dron_id
+                        med.dronid = dron_id
 
-                        schema = MedicationSchema()
-
-                        update = schema.load(result_med)
-
-                        db.session.merge(update)
+                        db.session.merge(med)
 
                         loaded.append(medid)
 
                         dron_weight = new_weight
 
                     else:
-
-                        errors.append(medid)
+                        msg = "Could not load, exceed the weight of the drone"
+                        errors.append({ "medid" : medid, "msg" : msg })
 
                 else:
+                    msg = "Could not load, this package is alreday asigned"
+                    errors.append({ "dronid" : med.dronid, "medid" : medid, "msg" : msg })
 
-                    errors.append(medid)
+            dron.weight = dron_weight
 
-            result_dron["weight"] = dron_weight
-
-            schema = DronSchema()
-
-            update = schema.load(result_dron)
-
-            db.session.merge(update)
+            db.session.merge(dron)
 
             db.session.commit()
 
-            return jsonify(loaded, errors), 200
+            return jsonify({ "loaded" : loaded, "errors" : errors }), 200
 
         else:
 
@@ -297,4 +295,4 @@ def get_dron_ready_for_load_id(dron_id):
 
     # Otherwise, nope, didn't find that id
     else:
-        return {"error": "Not available"}, 404
+        return jsonify({"error": "Not available"}), 404

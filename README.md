@@ -9,7 +9,7 @@
 
 `pipenv  install --skip-lock  flask Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy marshmallow flask-apscheduler`
 
-# Excecute
+# Execute
 1- Load the database
 
 `./bootstrap.sh load`

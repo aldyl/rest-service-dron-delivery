@@ -104,6 +104,6 @@ def get_medication_code(medication_id):
 
     # Otherwise, nope, didn't find that Id
     else:
-        return  { "error" : "not found for Id: {medication_id}".format(medication_id=medication_id)} , 404
+        return  jsonify({ "error" : "not found for Id: {medication_id}".format(medication_id=medication_id)}) , 404
 
 

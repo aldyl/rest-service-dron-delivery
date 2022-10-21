@@ -8,6 +8,30 @@ from model.model_type import ModelType
 
 API_SERVER = "http://localhost:5000"
 
+test_cargo = [
+
+    {
+        "type": "GET",
+        "endpoint": "/drones/9/cargo",
+    },
+
+    {
+        "type": "POST",
+        "endpoint": "/drones/9/cargo",
+        "data": {
+            "medid": [3,4,5],
+        }
+    },
+
+    {
+        "type": "GET",
+        "endpoint": "/drones/9/cargo",
+    },
+
+]
+
+
+
 test = [
 
     {
@@ -38,8 +62,7 @@ test = [
         "type": "GET",
         "endpoint": "/drones",
     },
-
-
+    
     {
 
         "type": "POST",
@@ -77,7 +100,7 @@ test = [
 
 ]
 
-for r in test:
+for r in test_cargo:
     if r["type"] == "POST":
         response = requests.post(API_SERVER + r["endpoint"], json=r["data"])
         print(r["type"], r["endpoint"], response.status_code, response.text)
