@@ -1,14 +1,26 @@
 # rest-service-dron-delivery
-Install
 
-pip3 install pipenv
+# Install
 
-pipenv  install --skip-lock  flask Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy marshmallow flask-apscheduler
+1. Clone the code from gitlab.
+2. Install python3
 
-Load init database
+`pip3 install pipenv`
 
-./bootstrap.sh load
+`pipenv  install --skip-lock  flask Flask-SQLAlchemy flask-marshmallow marshmallow-sqlalchemy marshmallow flask-apscheduler`
 
-Execute main API
+# Excecute
+1- Load the database
 
-./bootstrap.sh app
+`./bootstrap.sh load`
+
+2- Run Flask-SQLAlchemy-Marshmallow REST API
+
+`./bootstrap.sh app`
+
+# Methods and Endpoints
+                                    POST  GET  PUT
+/drones                              X     X    X
+/drones/<dron_id>                          X
+/medications                         X     X    X 
+/medications/<medication_id>               X
