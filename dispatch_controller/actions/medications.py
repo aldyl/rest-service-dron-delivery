@@ -1,3 +1,8 @@
+"""
+This is the medications module and supports all the REST actions for the
+medications data
+"""
+
 from flask import jsonify, request
 from dispatch_controller.config import app, db
 
@@ -97,7 +102,7 @@ def get_medication_code(medication_id):
         _med = med_schema.dump(med)
         return jsonify(_med), 200
 
-    # Otherwise, nope, didn't find that person
+    # Otherwise, nope, didn't find that Id
     else:
         return  { "error" : "not found for Id: {medication_id}".format(medication_id=medication_id)} , 404
 
