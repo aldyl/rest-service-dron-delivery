@@ -20,7 +20,7 @@
 
 # Methods and Endpoints
 | ENDPOINT              | POST | GET | PUT |
-| --------------------- |------| --- | ----|
+| :-------------------- | :----| :-- | :---|
 | /drones               |  X   |  X  |  X  |
 | /drones/<dron_id>     |      |  X  |     | 
 | /medications          |  X   |  X  |  X  |
