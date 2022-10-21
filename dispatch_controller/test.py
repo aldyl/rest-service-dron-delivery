@@ -24,11 +24,13 @@ test = [
     {
         "type": "PUT",
         "endpoint": "/drones",
-        "data": {"serial": "".join(secrets.choice(string.ascii_letters + string.digits) for x in range(100)),
-                 "model": ModelType.RANDOM.value,
-                 "weight": int(random.random()*1000/2),
-                 "batteryload": int(random.random()*100),
-                 "state": StateType.RANDOM.value, }
+        "data": {
+            "dronid": 0,
+            "serial": "GH5",
+            "model": ModelType.LIGTHWEIGHT.value,
+            "weight": 52,
+            "batteryload": int(random.random()*100),
+            "state":  StateType.RETURNING.value, }
 
     },
 
@@ -43,14 +45,30 @@ test = [
         "type": "POST",
         "endpoint": "/medications",
         "data": {
-                 "code": "".join(secrets.choice(string.ascii_uppercase + string.digits+"_") for x in range(10)),
-                 "image": "http://www.cu",
-                 "name": "".join(secrets.choice(string.ascii_letters + string.digits+"_-") for x in range(10)),
-                 "weight": int(random.random()*1000/2),
-                 "dronid": int(random.random()*10),
-                 },
+            "code": "".join(secrets.choice(string.ascii_uppercase + string.digits+"_") for x in range(10)),
+            "image": "http://www.cu",
+            "name": "".join(secrets.choice(string.ascii_letters + string.digits+"_-") for x in range(10)),
+            "weight": int(random.random()*1000/2),
+            "dronid": int(random.random()*10),
+        },
 
     },
+
+    {
+
+        "type": "PUT",
+        "endpoint": "/medications",
+        "data": {
+            "medid": 5,
+            "code": "MT006",
+            "image": "http://www.cu",
+            "name": "".join(secrets.choice(string.ascii_letters + string.digits+"_-") for x in range(10)),
+            "weight": int(random.random()*1000/2),
+            "dronid": 1,
+        },
+
+    },
+
 
     {
         "type": "GET",
@@ -64,9 +82,13 @@ for r in test:
         response = requests.post(API_SERVER + r["endpoint"], json=r["data"])
         print(r["type"], r["endpoint"], response.status_code, response.text)
 
+    elif r["type"] == "PUT":
+        response = requests.put(API_SERVER + r["endpoint"], json=r["data"])
+        print(r["type"], r["endpoint"], response.status_code, response.text)
+
     elif r["type"] == "GET":
         response = requests.get(API_SERVER + r["endpoint"])
-        print(r["type"], r["endpoint"], response.status_code)
+        print(r["type"], r["endpoint"], response.status_code, response.text)
 
     else:
         continue
